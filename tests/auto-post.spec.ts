@@ -1,5 +1,6 @@
 import { test } from '@playwright/test';
 import data from './data.json';
+import path from 'path';
 
 test.describe.configure({ mode: 'parallel' });
 
@@ -23,12 +24,18 @@ if (!!data.data) {
           <>asdasd</
           strong>`)
 
-        // const iamgesInput = page.locator(`//input[@type='file' and @multiple and @class='x1s85apg' and @accept='image/*,image/heif,image/heic,video/*,video/mp4,video/x-m4v,video/x-matroska,.mkv']`)
+        await page.locator(`//div[@role='dialog']//form[@method='POST']/div/div/div/div/div/div[3]/div/div[2]/div/div[1]//div[@role='button']`).click();
+
+        const imagesInput = page.locator(`//input[@type='file' and @multiple and @class='x1s85apg' and @accept='image/*,image/heif,image/heic,video/*,video/mp4,video/x-m4v,video/x-matroska,.mkv']`)
+
+        // await imagesInput.click();
+
+        await imagesInput.setInputFiles([path.join(__dirname, 'image.jpg')])
 
         await page.locator(`//div[@role='dialog']//form[@method='POST']/div/div/div/div/div/div[3]/div[2]//div[@role='button']`).click();
       });
     })
   })()
+} else {
+  throw new Error("Please enter input!!");
 }
-
-// throw new Error("Please enter input!!");
